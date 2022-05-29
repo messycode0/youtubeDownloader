@@ -7,7 +7,7 @@ from os import system
 from pytube import YouTube as youtube
 
 
-# if you want to change the name of the downloaded video then change this...
+
 
 
 def main():
@@ -26,17 +26,30 @@ def main():
         [sg.Text("Where its saved: "), sg.Input(key="-WhereItSave-", change_submits=True, default_text="if empty, will be next to the program home"), sg.FolderBrowse()],
     ]
 
+    video_info_layout = [
+        [sg.Text("Name :"), sg.Text("", key="-videoNameInfo-")],
+        [sg.Text("Author :"), sg.Text("", key="-videoAuthorInfo-")],
+        [sg.Text("Views :"), sg.Text("", key="-videoViewsInfo-")],
+        [sg.Text("Description :"), sg.Frame("Description", layout=[[sg.Button("click to see Description", key="-lookAtDec-")]])],
+        [sg.Text("Duration :"), sg.Text("", key="-videoDurationInfo-")],
+        
+    ]
+
     settings_col = sg.Column([
-        [sg.Frame("Options", settings_layout)]
+        [sg.Frame("Options", settings_layout)],
+        [sg.Frame("Video Information", video_info_layout)]
     ])
 
-    layout = [
+    normale_col = sg.Column([
         [sg.Text("Enter the Name of the file")],
-        [sg.InputText(key="-fileName-"), settings_col],
+        [sg.InputText(key="-fileName-")],
         [sg.Text("Enter the URL of the Video you want to download")],
         [sg.InputText(key="-url-", enable_events=True)],
         [sg.Button("Enter", key="-enter-btn-")]
+    ])
 
+    layout = [
+        [normale_col, settings_col]
     ]
 
     window = sg.Window("youTube Downloader", layout=layout)
@@ -89,10 +102,35 @@ def main():
                 console.print("Error: ", e, style="b u i blink red on white")
                 console.log(log_locals=True)
                 sg.popup("Error: ", "An error has Stopped the Download...\nretry or change to a lower "
-                                    "resolution\n\nEXCEPTION:\n\n", e)
+                                    "resolution\n\nEXCEPTION:\n", e)
+
         if event == "-url-":
+            try:
+                video_obj = youtube(values["-url-"])
+                console.log("video Name: ", video_obj.title)
+                console.log("video Author: ", video_obj.author)
+                console.log("video Views: ", video_obj.views)
+                console.log("video Description: ", video_obj.description)
+
+                window["-videoNameInfo-"].update(video_obj.title)
+                window["-videoAuthorInfo-"].update(video_obj.author)
+                window["-videoViewsInfo-"].update(video_obj.views)
+                window["-videoDurationInfo-"].update(str(video_obj.length // 60) + ":" + str(video_obj.length % 60))
+
+                
+
+
+                # window["-videoDescriptionInfo-"].update(video_obj.description)
+
+            except Exception as e:
+                console.print("Error: ", e, style="b u i blink red on white")
             pass
-        
+        if event == "-lookAtDec-":
+            try:
+                video_obj = youtube(values["-url-"])
+                sg.popup(video_obj.description, any_key_closes=True, grab_anywhere=True)
+            except:
+                pass
 
 
     pass
