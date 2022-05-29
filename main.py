@@ -41,6 +41,7 @@ def main():
     ])
 
     normale_col = sg.Column([
+        [sg.Text("Youtube Downloader", font=("Helvetica", 25))],
         [sg.Text("Enter the Name of the file")],
         [sg.InputText(key="-fileName-")],
         [sg.Text("Enter the URL of the Video you want to download")],
@@ -52,7 +53,7 @@ def main():
         [normale_col, settings_col]
     ]
 
-    window = sg.Window("youTube Downloader", layout=layout)
+    window = sg.Window("YouTube Downloader", layout=layout)
     console.log("made the window")
     console.log("starting the While loop")
 
