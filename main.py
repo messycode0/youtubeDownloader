@@ -7,9 +7,6 @@ from os import system
 from pytube import YouTube as youtube
 
 
-
-
-
 def main():
     file_output_name = "Output"
     print("starting Console Rich")
@@ -23,16 +20,19 @@ def main():
         [sg.Radio("Best", group_id="RAD1", default=True, key="-type1-"),
          sg.Radio("Worst", group_id="RAD1", default=False, key="-type2-"),
          sg.Radio("Audio", group_id="RAD1", default=False, key="-type3-")],
-        [sg.Text("Where its saved: "), sg.Input(key="-WhereItSave-", change_submits=True, default_text="if empty, will be next to the program home"), sg.FolderBrowse()],
+        [sg.Text("Where its saved: "),
+         sg.Input(key="-WhereItSave-", change_submits=True, default_text="if empty, will be next to the program home"),
+         sg.FolderBrowse()],
     ]
 
     video_info_layout = [
         [sg.Text("Name :"), sg.Text("", key="-videoNameInfo-")],
         [sg.Text("Author :"), sg.Text("", key="-videoAuthorInfo-")],
         [sg.Text("Views :"), sg.Text("", key="-videoViewsInfo-")],
-        [sg.Text("Description :"), sg.Frame("Description", layout=[[sg.Button("click to see Description", key="-lookAtDec-")]])],
+        [sg.Text("Description :"),
+         sg.Frame("Description", layout=[[sg.Button("click to see Description", key="-lookAtDec-")]])],
         [sg.Text("Duration :"), sg.Text("", key="-videoDurationInfo-")],
-        
+
     ]
 
     settings_col = sg.Column([
@@ -78,23 +78,26 @@ def main():
                 if values["-type1-"]:
                     temp = file_output_name
                     file_output_name = file_output_name + ".mp4"
-                    video_obj.streams.get_highest_resolution().download(filename=file_output_name, output_path=values["-WhereItSave-"])
+                    video_obj.streams.get_highest_resolution().download(filename=file_output_name,
+                                                                        output_path=values["-WhereItSave-"])
                     file_output_name = temp
-                    sg.popup("your video has successfully downloaded\nhave a good day")
+                    sg.popup("your video has successfully downloaded\n\ndownload name: " + file_output_name + "\nlocation: " + values["-WhereItSave-"])
 
                 elif values["-type2-"]:
                     temp = file_output_name
                     file_output_name = file_output_name + ".mp4"
-                    video_obj.streams.get_lowest_resolution().download(filename=file_output_name, output_path=values["-WhereItSave-"])
+                    video_obj.streams.get_lowest_resolution().download(filename=file_output_name,
+                                                                       output_path=values["-WhereItSave-"])
                     file_output_name = temp
-                    sg.popup("your video has successfully downloaded\nhave a good day")
+                    sg.popup("your video has successfully downloaded\n\ndownload name: " + file_output_name + "\nlocation: " + values["-WhereItSave-"])
 
                 elif values["-type3-"]:
                     temp = file_output_name
                     file_output_name = file_output_name + ".mp3"
-                    video_obj.streams.get_audio_only().download(filename=file_output_name, output_path=values["-WhereItSave-"])
+                    video_obj.streams.get_audio_only().download(filename=file_output_name,
+                                                                output_path=values["-WhereItSave-"])
                     file_output_name = temp
-                    sg.popup("your video has successfully downloaded\nhave a good day")
+                    sg.popup("your audio has successfully downloaded\n\ndownload name: " + file_output_name + "\nlocation: " + values["-WhereItSave-"])
 
                 console.log("downloaded the YouTube video called ", file_output_name)
                 console.log(log_locals=True)
@@ -117,9 +120,6 @@ def main():
                 window["-videoViewsInfo-"].update(video_obj.views)
                 window["-videoDurationInfo-"].update(str(video_obj.length // 60) + ":" + str(video_obj.length % 60))
 
-                
-
-
                 # window["-videoDescriptionInfo-"].update(video_obj.description)
 
             except Exception as e:
@@ -131,7 +131,6 @@ def main():
                 sg.popup(video_obj.description, any_key_closes=True, grab_anywhere=True)
             except:
                 pass
-
 
     pass
 
