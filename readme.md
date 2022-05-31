@@ -36,6 +36,10 @@ it should be done, and you can use the video/audio
 
 ![](media/readme-pic-8.png)
 
+# how to run?
+
+easy just run the run.bat. it will take care of any packages
+
 credit:
 
     mumbo jumbo for the example video
