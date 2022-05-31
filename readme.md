@@ -1,4 +1,4 @@
-# must have [python 3.10](https://www.python.org/downloads/) or higher
+# must have [python 3.10](https://www.python.org/downloads/) or higher And on a computer
 
 # Youtube Downloader v.1.2
 
